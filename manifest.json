@@ -1,0 +1,27 @@
+{
+    "manifest_version": 2,
+
+    "name": "Mustela",
+    "description": "Be agile as a weasel and track your time in openproject with less clicks",
+    "version": "1.0",
+
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "popup.html"
+    },
+    "web_accessible_resources": [
+        "lib/fa/fonts/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": ["https://op.*.*/*", "https://openproject.*.*/*"],
+            "css": ["lib/fa/styles/font-awesome.min.css", "content.css"],
+            "js": ["jquery-2.1.4.min.js", "logging.js", "content.js"],
+            "run_at": "document_end"
+        }
+    ],
+    "permissions": [
+        "cookies",
+        "storage"
+    ]
+}
