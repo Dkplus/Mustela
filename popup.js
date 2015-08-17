@@ -1,6 +1,6 @@
 logging.all(function (workPackages) {
     "use strict";
-    var i, $logs, $resumeLogging, $stopLogging, $pauseLogging;
+    var i, $logs;
     $logs = $('#logs');
 
     for (i in workPackages) {
@@ -10,9 +10,10 @@ logging.all(function (workPackages) {
         $logs.append(
             '<tr><td>' + workPackages[i].name + '</td>'
             + '<td id="runner_' + workPackages[i].id + '"></td>'
-            + '<td><a style="display: none;" href="#" id="resume-logging-' + workPackages[i].id + '" class="icon fa fa-play resume-logging"></a></td>'
-            + '<td><a style="display: none;" href="#" id="pause-logging-' + workPackages[i].id + '" class="icon fa fa-pause pause-logging"></a></td>'
-            + '<td><a style="display: none;" href="#" id="stop-logging-' + workPackages[i].id + '" class="icon fa fa-stop stop-logging"></a></td>'
+            + '<td><a data-id="' + workPackages[i].id + '" style="display: none;" href="#" id="resume-logging-' + workPackages[i].id + '" class="icon fa fa-play resume-logging"></a></td>'
+            + '<td><a data-id="' + workPackages[i].id + '" style="display: none;" href="#" id="pause-logging-' + workPackages[i].id + '" class="icon fa fa-pause pause-logging"></a></td>'
+            + '<td><a data-id="' + workPackages[i].id + '" style="display: none;" href="#" id="stop-logging-' + workPackages[i].id + '" class="icon fa fa-stop stop-logging"></a></td>'
+            + '<td><a data-id="' + workPackages[i].id + '" href="#" id="remove-logging-' + workPackages[i].id + '" class="icon fa fa-trash-o remove-logging"></a></td>'
             + '</tr>');
 
         $('#runner_' + workPackages[i].id).runner({
@@ -25,43 +26,51 @@ logging.all(function (workPackages) {
             }
         });
 
-        $resumeLogging = $('#resume-logging-' + workPackages[i].id);
-        $stopLogging   = $('#stop-logging-' + workPackages[i].id);
-        $pauseLogging  = $('#pause-logging-' + workPackages[i].id);
-
         if (workPackages[i].running) {
-            $pauseLogging.show();
+            $('#pause-logging-' + workPackages[i].id).show();
         } else {
-            $resumeLogging.show();
+            $('#resume-logging-' + workPackages[i].id).show();
         }
-        $stopLogging.show();
-        $resumeLogging.on('click', function (event) {
-            "use strict";
-            event.preventDefault();
-            logging.start(workPackages[i].id, workPackages[i].name, function () {
-                $('#runner_' + workPackages[i].id).runner('start');
-                $('#resume-logging-' + workPackages[i].id).hide();
-                $('#pause-logging-' + workPackages[i].id).show();
-            });
-        });
-        $pauseLogging.on('click', function (event) {
-            "use strict";
-            event.preventDefault();
-            logging.stop(workPackages[i].id, function () {
-                $('#runner_' + workPackages[i].id).runner('stop');
-                $('#resume-logging-' + workPackages[i].id).show();
-                $('#pause-logging-' + workPackages[i].id).hide();
-            });
-        });
-        $stopLogging.on('click', function (event) {
-            "use strict";
-            event.preventDefault();
-            logging.stop(workPackages[i].id, function () {
-                $('#runner_' + workPackages[i].id).runner('stop');
-                $('#resume-logging-' + workPackages[i].id).show();
-                $('#pause-logging-' + workPackages[i].id).hide();
-                window.open('https://openproject.atino.net/work_packages/' + workPackages[i].id + '/time_entries/new');
-            });
-        });
+        $('#stop-logging-' + workPackages[i].id).show();
     }
+
+    $('.resume-logging').on('click', function (event) {
+        "use strict";
+        var id = $(this).data('id');
+        event.preventDefault();
+        logging.start(id, '', function () {
+            $('#runner_' + id).runner('start');
+            $('#resume-logging-' + id).hide();
+            $('#pause-logging-' + id).show();
+        });
+    });
+    $('.pause-logging').on('click', function (event) {
+        "use strict";
+        var id = $(this).data('id');
+        event.preventDefault();
+        logging.stop(id, function () {
+            $('#runner_' + id).runner('stop');
+            $('#resume-logging-' + id).show();
+            $('#pause-logging-' + id).hide();
+        });
+    });
+    $('.stop-logging').on('click', function (event) {
+        "use strict";
+        var id = $(this).data('id');
+        event.preventDefault();
+        logging.stop(id, function () {
+            $('#runner_' + id).runner('stop');
+            $('#resume-logging-' + id).show();
+            $('#pause-logging-' + id).hide();
+            window.open('https://openproject.atino.net/work_packages/' + id + '/time_entries/new');
+        });
+    });
+    $('.remove-logging').on('click', function (event) {
+        "use strict";
+        var id = $(this).data('id');
+        event.preventDefault();
+        logging.clear(id, function () {
+            $('#remove-logging-' + id).parent().parent().remove();
+        });
+    });
 });
