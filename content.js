@@ -2,14 +2,12 @@ $(function() {
     var workPackageId,
         workPackageName,
         regExp = /^\/work_packages\/(\d+)$/,
+        logRegExp = /^\/work_packages\/(\d+)\/time_entries\/new$/,
         fa,
         paused,
         running,
-        neverRan;
-
-    if (!regExp.test(window.location.pathname)) {
-        return;
-    }
+        neverRan,
+        insertLoggingTime;
 
     fa = document.createElement('style');
     fa.type = 'text/css';
@@ -18,35 +16,84 @@ $(function() {
         + '"); }';
     document.head.appendChild(fa);
 
+    if (logRegExp.test(window.location.pathname)) {
+        workPackageId = logRegExp.exec(window.location.pathname)[1];
+
+        insertLoggingTime = function (id, durationInSeconds) {
+            var date = new Date(durationInSeconds * 1000),
+                minutes = Math.round((date.getUTCMinutes()/60) * 100);
+            $('#time_entry_hours').val(date.getUTCHours() + '.' + (minutes < 10 ? '0' + minutes : minutes));
+            $('#new_time_entry').on('submit', function () {
+                logging.clear(id, function () {});
+            });
+        };
+        logging.running(workPackageId, function () {}, insertLoggingTime, function () {});
+    }
+
+    if (!regExp.test(window.location.pathname)) {
+        return;
+    }
+
     workPackageId   = regExp.exec(window.location.pathname)[1];
     workPackageName = $('h2').text();
 
-    $('.action_menu_specific').prepend('<li><a href="#" class="icon fa fa-stop stop-logging" style="display: none;">Stop</a></li>');
-    $('.action_menu_specific').prepend('<li><a href="#" class="icon fa fa-pause pause-logging" style="display: none;">Pause</a></li>');
-    $('.action_menu_specific').prepend('<li><a href="#" class="icon fa fa-play resume-logging" style="display: none;">Resume</a></li>');
-    $('.action_menu_specific').prepend('<li><a href="#" class="icon fa fa-play start-logging" style="display: none;">Start</a></li>');
+    $('.action_menu_specific')
+        .prepend('<li style="display: none;"><a href="#" class="icon fa fa-stop stop-logging">Stop &amp; log</a></li>')
+        .prepend('<li style="display: none;"><a href="#" class="icon fa fa-pause pause-logging">Pause</a></li>')
+        .prepend('<li style="display: none;"><a href="#" class="icon fa fa-play resume-logging">Resume</a></li>')
+        .prepend('<li style="display: none;"><a href="#" class="icon fa fa-play start-logging">Start</a></li>')
+        .prepend('<li><span class="icon fa fa-clock-o runner"></span></li>');
 
-
-    paused = function () {
+    paused = function (id, durationInSeconds) {
         "use strict";
-        $('.start-logging').hide();
-        $('.pause-logging').hide();
-        $('.stop-logging').show();
-        $('.resume-logging').show();
+        var $runner = $('.runner');
+        $('.start-logging').parent().hide();
+        $('.pause-logging').parent().hide();
+        $('.stop-logging').parent().show();
+        $('.resume-logging').parent().show();
+        if ($runner.runner('info').hasOwnProperty('running')) {
+            $runner.runner('stop');
+            return;
+        }
+        $runner.runner({
+            autostart: false,
+            startAt: durationInSeconds * 1000,
+            format: function (dateInMs) {
+                var date = new Date(dateInMs),
+                    minutes = Math.round((date.getUTCMinutes()/60) * 100);
+                return date.getUTCHours() + '.' + (minutes < 10 ? '0' + minutes : minutes) + ' h';
+            }
+        });
     };
-    running = function () {
+    running = function (id, durationInSeconds) {
         "use strict";
-        $('.start-logging').hide();
-        $('.resume-logging').hide();
-        $('.stop-logging').show();
-        $('.pause-logging').show();
+        var $runner = $('.runner');
+        $('.start-logging').parent().hide();
+        $('.resume-logging').parent().hide();
+        $('.stop-logging').parent().show();
+        $('.pause-logging').parent().show();
+
+        if ($runner.runner('info').hasOwnProperty('running')) {
+            $runner.runner('start');
+            return;
+        }
+        $runner.runner({
+            autostart: true,
+            startAt: durationInSeconds * 1000,
+            format: function (dateInMs) {
+                var date = new Date(dateInMs),
+                    minutes = Math.round((date.getUTCMinutes()/60) * 100);
+                return date.getUTCHours() + '.' +  (minutes < 10 ? '0' + minutes : minutes) + ' h';
+            }
+        });
     };
     neverRan = function () {
         "use strict";
-        $('.resume-logging').hide();
-        $('.pause-logging').hide();
-        $('.stop-logging').hide();
-        $('.start-logging').show();
+        $('.resume-logging').parent().hide();
+        $('.pause-logging').parent().hide();
+        $('.stop-logging').parent().hide();
+        $('.runner').text('0.0 h');
+        $('.start-logging').parent().show();
     };
 
     $('.resume-logging').on('click', function (event) {
@@ -62,7 +109,9 @@ $(function() {
     $('.stop-logging').on('click', function (event) {
         "use strict";
         event.preventDefault();
-        logging.stop(workPackageId, neverRan);
+        logging.stop(workPackageId, function () {
+            window.location.href = window.location.href + '/time_entries/new';
+        });
     });
     $('.start-logging').on('click', function (event) {
         "use strict";

@@ -14,9 +14,9 @@
     ],
     "content_scripts": [
         {
-            "matches": ["https://op.*.*/*", "https://openproject.*.*/*"],
+            "matches": ["https://op.atino.net/*", "https://openproject.atino.net/*"],
             "css": ["lib/fa/styles/font-awesome.min.css", "content.css"],
-            "js": ["jquery-2.1.4.min.js", "logging.js", "content.js"],
+            "js": ["jquery-2.1.4.min.js", "logging.js", "lib/runner/jquery.runner-min.js", "content.js"],
             "run_at": "document_end"
         }
     ],
