@@ -4,17 +4,34 @@
     "name": "Mustela",
     "description": "Be agile as a weasel and track your time in openproject with less clicks",
     "version": "1.0",
-
+    "developer": {
+        "name": "Oskar Bley",
+        "url": "http://programming-php.net"
+    },
+    "icons": {
+        "16": "icon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
+    },
     "browser_action": {
-        "default_icon": "icon.png",
+        "default_icon": {
+            "19": "icon19.png",
+            "38": "icon38.png"
+        },
+        "default_title": "Mustela",
         "default_popup": "popup.html"
     },
     "web_accessible_resources": [
         "lib/fa/fonts/*"
     ],
+    "options_ui": {
+        "page": "options/options.html",
+        "chrome_style": true
+    },
+    "options_page": "options/options.html",
     "content_scripts": [
         {
-            "matches": ["https://op.atino.net/*", "https://openproject.atino.net/*"],
+            "matches": ["https://*/work_packages/*"],
             "css": ["lib/fa/styles/font-awesome.min.css", "content.css"],
             "js": ["jquery-2.1.4.min.js", "logging.js", "lib/runner/jquery.runner-min.js", "content.js"],
             "run_at": "document_end"
