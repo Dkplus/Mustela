@@ -19,10 +19,10 @@
             "38": "icon38.png"
         },
         "default_title": "Mustela",
-        "default_popup": "popup.html"
+        "default_popup": "popup/popup.html"
     },
     "web_accessible_resources": [
-        "lib/fa/fonts/*"
+        "vendor/fa/fonts/*"
     ],
     "options_ui": {
         "page": "options/options.html",
@@ -32,8 +32,21 @@
     "content_scripts": [
         {
             "matches": ["https://*/work_packages/*"],
-            "css": ["lib/fa/styles/font-awesome.min.css", "content.css"],
-            "js": ["jquery-2.1.4.min.js", "logging.js", "lib/runner/jquery.runner-min.js", "content.js"],
+            "css": ["vendor/fa/styles/font-awesome.min.css"],
+            "js": [
+                "vendor/jquery/jquery-2.1.4.min.js",
+                "lib/ticket.js",
+                "lib/storage.js",
+                "lib/settings.js",
+                "lib/history.js",
+                "lib/favorites.js",
+                "lib/logging.js",
+                "mods/favorites_on_work_package.js",
+                "mods/logging_on_work_package.js",
+                "mods/logging_on_time_log.js",
+                "vendor/runner/jquery.runner-min.js",
+                "content/content.js"
+            ],
             "run_at": "document_end"
         }
     ],

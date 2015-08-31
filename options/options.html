@@ -1,9 +1,41 @@
 <!DOCTYPE html>
 <html>
-    <head><title>Mustela</title></head>
+    <head>
+        <title>Mustela</title>
+        <link rel="stylesheet" href="../vendor/fa/styles/font-awesome.min.css">
+        <style>
+            label {
+                position: relative;
+                display: block;
+            }
+            label i {
+                position: absolute;
+                padding: 10px;
+                pointer-events: none;
+                left: 0;
+            }
+            label input[type=url] {
+                padding-left: 25px;
+            }
+        </style>
+    </head>
     <body>
-        <label for="base-url">
-            <input type="url" name="base-url" id="base-url" placeholder="https://community.openproject.org/" /> Your OpenProject installation
-        </label>
+        <form id="options">
+            <label for="base-url">
+                <i class="fa fa-database"></i>
+                <input type="url" name="base-url" id="base-url" placeholder="https://community.openproject.org/" /> Your OpenProject installation
+            </label>
+            <label for="time-format">
+                <select name="time-format" id="time-format">
+                    <option value="hours">5,5h</option>
+                    <option value="hours_and_minutes">5h 30m</option>
+                </select> Time format
+            </label>
+            <input type="submit" value="save" />
+        </form>
     </body>
+    <script type="text/javascript" src="../lib/storage.js"></script>
+    <script type="text/javascript" src="../lib/settings.js"></script>
+    <script type="text/javascript" src="../vendor/jquery/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="options.js"></script>
 </html>
