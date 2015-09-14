@@ -17,8 +17,8 @@ var logging_on_work_package_factory = (function (logging, $) {
     hideResumeButton   = function () { $('.resume-logging').parent().hide(); };
     showStartButton    = function () { $('.start-logging').parent().show(); };
     hideStartButton    = function () { $('.start-logging').parent().hide(); };
-    stopAndResetRunner = function () { $('.runner').runner('reset', true); };
-    startRunner        = function () { $('.runner').runner('start'); };
+    stopAndResetRunner = function () { $('.runner').runner('reset', true).hide(); };
+    startRunner        = function () { $('.runner').show().runner('start'); };
     stopRunner         = function () { $('.runner').runner('stop'); };
 
     /**
@@ -60,15 +60,18 @@ var logging_on_work_package_factory = (function (logging, $) {
                             var date = new Date(dateInMs);
                             return date.getUTCHours() + 'h ' +  date.getUTCMinutes() + 'm';
                         };
+                    $('.runner').runner({
+                        startAt: 0,
+                        format: formatFunction
+                    }).hide();
+
                     logging.each(function (ticket) {
                         $('.runner').runner({
-                            autostart: false,
                             startAt: ticket.duration,
                             format: formatFunction
-                        });
+                        }).show();
 
                         if (!ticket.running) {
-
                             if (ticket.duration > 0) {
                                 showResumeButton();
                                 hideStartButton();

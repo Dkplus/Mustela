@@ -3,7 +3,7 @@ $(function () {
     var factories = [
         favorites_on_work_package_factory,
         logging_on_work_package_factory,
-        logging_on_time_log_factory,
+        logging_on_time_log_factory
     ];
 
     settings.onSetBaseUrl(function (baseUrl) {

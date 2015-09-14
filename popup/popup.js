@@ -41,9 +41,6 @@ $(function () {
     });
 
     settings.onSetBaseUrl(function (url) {
-
-
-        // tickets
         settings.onSetTimeFormat(function (format) {
             var formatFunction, addTicket;
             formatFunction = format === 'hours'
