@@ -10,14 +10,13 @@ var favorites_on_work_package_factory = (function (favorites, $) {
      * @class favorites_on_work_package
      */
     return function (pathname) {
-        var regExp = /^\/work_packages\/(\d+)$/, ticketNumber, ticketText;
+        var regExp = /^\/work_packages\/(\d+)$/, ticketNumber;
 
         if (!regExp.test(pathname)) {
             return {modifyHtml: function () {}, loadData: function () {}, addEventListeners: function () {}};
         }
 
         ticketNumber = regExp.exec(pathname)[1];
-        ticketText   = $('h2').text();
 
         /**
          * @lends favorites_on_work_package
@@ -47,7 +46,7 @@ var favorites_on_work_package_factory = (function (favorites, $) {
 
                 $('.favorite').on('click', function (event) {
                     event.preventDefault();
-                    favorites.add(ticketNumber, ticketText);
+                    favorites.add(ticketNumber);
                 });
 
                 $('.unfavorite').on('click', function (event) {

@@ -26,15 +26,13 @@ var logging_on_work_package_factory = (function (logging, $) {
      */
     return function (pathname) {
         var regExp = /^\/work_packages\/(\d+)$/,
-            ticketNumber,
-            ticketText;
+            ticketNumber;
 
         if (!regExp.test(pathname)) {
             return {modifyHtml: function () {}, loadData: function () {}, addEventListeners: function () {}};
         }
 
         ticketNumber = regExp.exec(pathname)[1];
-        ticketText   = $('h2').text();
 
         /**
          * @lends logging_on_work_package
@@ -122,7 +120,7 @@ var logging_on_work_package_factory = (function (logging, $) {
 
                 $('.resume-logging').on('click', function (event) {
                     event.preventDefault();
-                    logging.start(ticketNumber, ticketText);
+                    logging.start(ticketNumber);
                 });
 
                 $('.pause-logging').on('click', function (event) {
@@ -138,7 +136,7 @@ var logging_on_work_package_factory = (function (logging, $) {
 
                 $('.start-logging').on('click', function (event) {
                     event.preventDefault();
-                    logging.start(ticketNumber, ticketText);
+                    logging.start(ticketNumber);
                 });
             }
         };

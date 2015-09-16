@@ -1,5 +1,6 @@
 $(function () {
     "use strict";
+
     settings.onSetBaseUrl(function (url) {
         settings.onSetTimeFormat(function (format) {
             var formatFunction, addTicket;
@@ -17,7 +18,8 @@ $(function () {
                 var $resumeLogging, $pauseLogging, $stopLogging, $favorite;
 
                 $('#logs_table').append(
-                    '<tr id="log_' + ticket.number + '"><td><a id="log_text_' + ticket.number + '" href="' + url + '/work_packages/' + ticket.number + '">' + ticket.text + '</a></td>'
+                    '<tr id="log_' + ticket.number + '">'
+                        + '<td><a id="log_text_' + ticket.number + '" href="' + url + '/work_packages/' + ticket.number + '">' + ticket.text + '</a></td>'
                         + '<td id="runner_' + ticket.number + '"></td>'
                         + '<td><a style="display: none;" href="#" id="resume-logging-' + ticket.number + '" class="icon fa fa-play resume-logging"></a></td>'
                         + '<td><a style="display: none;" href="#" id="pause-logging-' + ticket.number + '" class="icon fa fa-pause pause-logging"></a></td>'

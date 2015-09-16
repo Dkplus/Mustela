@@ -35,6 +35,7 @@
             "css": ["vendor/fa/styles/font-awesome.min.css"],
             "js": [
                 "vendor/jquery/jquery-2.1.4.min.js",
+                "vendor/runner/jquery.runner-min.js",
                 "lib/ticket.js",
                 "lib/storage.js",
                 "lib/settings.js",
@@ -44,7 +45,6 @@
                 "mods/favorites_on_work_package.js",
                 "mods/logging_on_work_package.js",
                 "mods/logging_on_time_log.js",
-                "vendor/runner/jquery.runner-min.js",
                 "content/content.js"
             ],
             "run_at": "document_end"

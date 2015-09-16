@@ -2,55 +2,41 @@
 <html>
     <head>
         <title>Mustela </title>
-        <link rel="stylesheet" href="../vendor/fa/styles/font-awesome.min.css"/>
+        <link rel="stylesheet" href="../vendor/fa/styles/font-awesome.min.css" />
+        <link rel="stylesheet" href="popup.css" />
     </head>
-    <body style="min-width: 400px;">
+    <body>
         <nav>
             <ul>
-                <li><a id="logs_link" href="#">Logs</a></li>
-                <li><a id="favorites_link" href="#">Favorites</a></li>
-                <li><a id="recent_link" href="#">Recent</a></li>
+                <li class="active"><a id="logs_link" href="#"><span class="fa fa-clock-o fa-2x"></span></a></li>
+                <li><a id="favorites_link" href="#"><span class="fa fa-star fa-2x"></span></a></li>
+                <li><a id="recent_link" href="#"><span class="fa fa-history fa-2x"></span></a></li>
             </ul>
         </nav>
         <div id="content">
             <div id="logs">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="min-width: 300px;">Ticket</th>
-                            <th><span class="icon fa fa-clock-o"></span></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="logs_table"></tbody>
+                <table id="logs_table">
+                    <tr>
+                        <td><a class="ticket_number" href="https://openproject.atino.net/work_packages/1234">#1234</a></td>
+                        <td>Feature: Einführung Instant Messenger</td>
+                        <td><span class="fa fa-clock-o"></span> 2h 5m</td>
+                        <td class="interact"><a href="#"><span class="fa fa-heart-o"></span></a></td>
+                        <td class="interact"><a href="#"><span class="fa fa-stop"></span></a></td>
+                        <td class="interact"><a href="#"><span class="fa fa-save"></span></a></td>
+                        <td class="interact"><a href="#"><span class="fa fa-trash"></span></a></td>
+                    </tr>
                 </table>
+
+                <form class="start_logging_form">
+                    <label for="input_ticket_number">#<input type="number" name="ticket_number" id="input_ticket_number"/></label>
+                    <button><span class="fa fa-2x fa-play"></span></button>
+                </form>
             </div>
             <div id="favorites" style="display: none;">
-                <table id="favorites_table">
-                    <thead>
-                        <tr>
-                            <th style="min-width: 300px;">Ticket</th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                </table>
+                <table id="favorites_table"></table>
             </div>
             <div id="recent" style="display: none;">
-                <table id="recent_table">
-                    <thead>
-                        <tr>
-                            <th style="min-width: 300px;">Ticket</th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                </table>
+                <table id="recent_table"></table>
             </div>
         </div>
     </body>
@@ -62,6 +48,12 @@
     <script src="../lib/favorites.js" type="text/javascript"></script>
     <script src="../lib/history.js" type="text/javascript"></script>
     <script src="../lib/logging.js" type="text/javascript"></script>
+    <script src="action_tabs.js" type="text/javascript"></script>
+    <script src="action_open_ticket.js" type="text/javascript"></script>
+    <script src="action_favorite_ticket.js" type="text/javascript"></script>
+    <script src="action_logging.js" type="text/javascript"></script>
+    <script src="favorites.js" type="text/javascript"></script>
+    <script src="history.js" type="text/javascript"></script>
     <script src="popup.js" type="text/javascript"></script>
 </html>
 

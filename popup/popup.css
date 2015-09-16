@@ -1,0 +1,98 @@
+/**
+ * General style
+ */
+body {
+    font-family: Lato, 'Lucida Grande', Helvetica, Arial, sans-serif;
+}
+
+/**
+ * Menu
+ */
+body, nav, nav ul {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-width: 400px;
+}
+
+nav ul li {
+    float: left;
+    width: 33.3%;
+    list-style: none;
+    background-color: #3493b3;
+}
+nav ul li:first-child {
+    width: 33.4%;
+}
+
+nav ul li.active {
+    background-color: #06799f;
+}
+nav ul li:hover {
+    background-color: #06799f;
+}
+
+nav ul li a {
+    display: block;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    color: #ffffff;
+    text-decoration: none;
+    text-align: center;
+}
+
+/**
+ * Start logging form
+ */
+.start_logging_form {
+    width: 100%;
+    margin-top: 1em;
+    margin-left: -0.5em;
+    padding: 1em 0.5em;
+    background-color: #3493b3;
+}
+.start_logging_form label, .start_logging_form input[type=number] {
+    background-color: white;
+    color: #06799f;
+    font-weight: bold;
+    font-size: 1em;
+    height: 1em;
+    padding: 5px;
+    border: 0 none;
+}
+.start_logging_form button {
+    border: 0 none;
+    background: #06799f;
+    color: white;
+    padding-bottom: 6px;
+    padding-top: 2px;
+}
+
+
+/**
+ * Content
+ */
+#content {
+    clear: both;
+    padding: 0.5em;
+}
+
+table {
+    border-spacing: 0;
+    width: 100%;
+}
+
+.ticket_number {
+    color: #06799f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.ticket_number:hover {
+    text-decoration: underline;
+}
+a.log, a.log:hover, a.favorite, a.favorite:hover {
+    color: #06799f;
+    text-decoration: none;
+}
