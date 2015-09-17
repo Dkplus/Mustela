@@ -28,7 +28,7 @@ $(function () {
                     '<tr id="log_' + ticket.number + '">'
                         + '<td><a class="ticket_number" href="' + url + '/work_packages/' + ticket.number + '">#' + ticket.number + '</a></td>'
                         + '<td>' + ticket.text + '</td>'
-                        + '<td><span class="fa fa-fw fa-clock-o"></span> <span id="runner_' + ticket.number + '"></span></td>'
+                        + '<td style="width: 6em;"><span class="fa fa-fw fa-clock-o"></span> <span id="runner_' + ticket.number + '"></span></td>'
                         + '<td><a href="#" class="log fa fa-fw fa-play" data-id="' + ticket.number + '"></span></a></td>'
                         + '<td><a href="' + url + '/work_packages/' + ticket.number + '/time_entries/new" class="save fa fa-fw fa-save" data-id="' + ticket.number + '"></span></a></td>'
                         + '<td><a href="#" class="trash fa fa-fw fa-trash" data-id="' + ticket.number + '"></span></a></td>'
@@ -77,7 +77,6 @@ $(function () {
         $('#log_' + ticketNumber + ' .favorite').removeClass('fa-star').addClass('fa-star-o');
     });
     $('.start_logging_form').on('submit', function (event) {
-        console.log('submitted');
         event.preventDefault();
         logging.start($('#input_ticket_number').val());
     });

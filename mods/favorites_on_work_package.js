@@ -24,33 +24,28 @@ var favorites_on_work_package_factory = (function (favorites, $) {
         return {
             modifyHtml: function () {
                 $('.action_menu_specific')
-                    .prepend('<li><a href="#" class="icon fa fa-heart-o favorite">Favorite</a></li>')
-                    .prepend('<li style="display: none;"><a href="#" class="icon fa fa-heart unfavorite">Unfavorite</a></li>');
+                    .prepend('<li><a style="width: 2em" href="#" class="icon fa fa-fw fa-star-o favorite"></a></li>');
             },
             loadData: function () {
                 favorites.each(function () {
-                    $('.favorite').parent().hide();
-                    $('.unfavorite').parent().show();
+                    $('.favorite').removeClass('fa-star-o').addClass('fa-star');
                 }, ticketNumber);
             },
             addEventListeners: function () {
                 favorites.onAdded(function () {
-                    $('.favorite').parent().hide();
-                    $('.unfavorite').parent().show();
+                    $('.favorite').removeClass('fa-star-o').addClass('fa-star');
                 }, ticketNumber);
 
                 favorites.onRemoved(function () {
-                    $('.favorite').parent().show();
-                    $('.unfavorite').parent().hide();
+                    $('.favorite').removeClass('fa-star').addClass('fa-star-o');
                 }, ticketNumber);
 
                 $('.favorite').on('click', function (event) {
                     event.preventDefault();
-                    favorites.add(ticketNumber);
-                });
-
-                $('.unfavorite').on('click', function (event) {
-                    event.preventDefault();
+                    if ($(this).hasClass('fa-star-o')) {
+                        favorites.add(ticketNumber);
+                        return;
+                    }
                     favorites.remove(ticketNumber);
                 });
             }

@@ -5,21 +5,6 @@
  */
 var logging_on_work_package_factory = (function (logging, $) {
     "use strict";
-    var showStopButton, showPauseButton, showResumeButton, showStartButton,
-        hideStopButton, hidePauseButton, hideResumeButton, hideStartButton,
-        startRunner, stopRunner, stopAndResetRunner;
-
-    showPauseButton    = function () { $('.pause-logging').parent().show(); };
-    hidePauseButton    = function () { $('.pause-logging').parent().hide(); };
-    showStopButton     = function () { $('.stop-logging').parent().show(); };
-    hideStopButton     = function () { $('.stop-logging').parent().hide(); };
-    showResumeButton   = function () { $('.resume-logging').parent().show(); };
-    hideResumeButton   = function () { $('.resume-logging').parent().hide(); };
-    showStartButton    = function () { $('.start-logging').parent().show(); };
-    hideStartButton    = function () { $('.start-logging').parent().hide(); };
-    stopAndResetRunner = function () { $('.runner').runner('reset', true).hide(); };
-    startRunner        = function () { $('.runner').show().runner('start'); };
-    stopRunner         = function () { $('.runner').runner('stop'); };
 
     /**
      * @class logging_on_work_package
@@ -40,11 +25,8 @@ var logging_on_work_package_factory = (function (logging, $) {
         return {
             modifyHtml: function () {
                 $('.action_menu_specific')
-                    .prepend('<li style="display: none;"><a href="#" class="icon fa fa-stop stop-logging">Stop &amp; log</a></li>')
-                    .prepend('<li style="display: none;"><a href="#" class="icon fa fa-pause pause-logging">Pause</a></li>')
-                    .prepend('<li style="display: none;"><a href="#" class="icon fa fa-play resume-logging">Resume</a></li>')
-                    .prepend('<li><a href="#" class="icon fa fa-play start-logging">Start</a></li>')
-                    .prepend('<li><span class="icon fa fa-clock-o runner"></span></li>');
+                    .prepend('<li><a style="width: 2em;" href="#" class="icon fa fa-fw fa-play logging"></a></li>')
+                    .prepend('<li><span style="width: 5em;" class="icon fa fa-fw fa-clock-o runner"></span></li>');
             },
             loadData: function () {
                 settings.onSetTimeFormat(function (format) {
@@ -61,82 +43,54 @@ var logging_on_work_package_factory = (function (logging, $) {
                     $('.runner').runner({
                         startAt: 0,
                         format: formatFunction
-                    }).hide();
+                    });
 
                     logging.each(function (ticket) {
-                        $('.runner').runner({
+                        var $runner = $('.runner');
+                        $runner.runner({
+                            autostart: true,
                             startAt: ticket.duration,
                             format: formatFunction
-                        }).show();
+                        });
 
                         if (!ticket.running) {
-                            if (ticket.duration > 0) {
-                                showResumeButton();
-                                hideStartButton();
-                            }
+                            $runner.runner('stop');
                             return;
                         }
-
-                        startRunner();
-                        hideStartButton();
-                        hideResumeButton();
-                        showPauseButton();
-                        showStopButton();
+                        $('.logging').removeClass('fa-play').addClass('fa-pause');
                     }, ticketNumber);
                 });
             },
             addEventListeners: function () {
                 logging.onStarted(function () {
-                    startRunner();
-                    hideStartButton();
-                    hideResumeButton();
-                    showPauseButton();
-                    showStopButton();
+                    $('.runner').runner('start');
+                    $('.logging').removeClass('fa-play').addClass('fa-pause');
                 }, ticketNumber);
 
                 logging.onResumed(function () {
-                    startRunner();
-                    hideStartButton();
-                    hideResumeButton();
-                    showPauseButton();
-                    showStopButton();
+                    $('.runner').runner('start');
+                    $('.logging').removeClass('fa-play').addClass('fa-pause');
                 }, ticketNumber);
 
                 logging.onStopped(function () {
-                    stopRunner();
-                    hideStartButton();
-                    showResumeButton();
-                    hidePauseButton();
-                    hideStopButton();
+                    $('.runner').runner('stop');
+                    $('.logging').removeClass('fa-pause').addClass('fa-play');
                 }, ticketNumber);
 
                 logging.onRemoved(function () {
-                    stopAndResetRunner();
-                    showStartButton();
-                    hideResumeButton();
-                    hidePauseButton();
-                    hideStopButton();
+                    $('.runner').runner('reset', true);
+                    $('.logging').removeClass('fa-pause').addClass('fa-play');
                 }, ticketNumber);
 
-                $('.resume-logging').on('click', function (event) {
+                $('.logging').on('click', function (event) {
+                    var $this = $(this);
                     event.preventDefault();
-                    logging.start(ticketNumber);
-                });
 
-                $('.pause-logging').on('click', function (event) {
-                    event.preventDefault();
+                    if ($this.hasClass('fa-play')) {
+                        logging.start(ticketNumber);
+                        return;
+                    }
                     logging.stop(ticketNumber);
-                });
-
-                $('.stop-logging').on('click', function (event) {
-                    event.preventDefault();
-                    logging.stop(ticketNumber);
-                    window.location.pathname = '/work_packages/' + ticketNumber + '/time_entries/new';
-                });
-
-                $('.start-logging').on('click', function (event) {
-                    event.preventDefault();
-                    logging.start(ticketNumber);
                 });
             }
         };
