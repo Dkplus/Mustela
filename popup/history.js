@@ -13,8 +13,8 @@ $(function () {
                 '<tr id="recent_' + ticket.number + '">'
                     + '<td><a class="ticket_number" href="' + url + '/work_packages/' + ticket.number + '">#' + ticket.number + '</a></td>'
                     + '<td>' + ticket.text + '</td>'
-                    + '<td><a href="#" class="favorite fa fa-fw fa-star-o" data-id="' + ticket.number + '"></span></a></td>'
                     + '<td><a href="#" class="log fa fa-fw fa-play" data-id="' + ticket.number + '"></span></a></td>'
+                    + '<td><a href="#" class="favorite fa fa-fw fa-star-o" data-id="' + ticket.number + '"></span></a></td>'
                     + '</tr>'
             );
 

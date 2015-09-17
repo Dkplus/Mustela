@@ -92,7 +92,7 @@ table {
 .ticket_number:hover {
     text-decoration: underline;
 }
-a.log, a.log:hover, a.favorite, a.favorite:hover {
+a.log, a.log:hover, a.favorite, a.favorite:hover, a.trash, a.trash:hover, a.save, a.save:hover, #logs .fa-clock-o:before {
     color: #06799f;
     text-decoration: none;
 }
